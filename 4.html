@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>★ ФРОНТЕНД ГАЙД ★</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #ffffcc;
+  color: #000080;
+  font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif;
+  line-height: 1.6;
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><circle cx="8" cy="8" r="6" fill="none" stroke="%23000080" stroke-width="2"/></svg>'), auto;
+}
+
+.container {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+marquee {
+  display: block;
+  font-size: 0.9rem;
+  color: #ff0000;
+  font-weight: bold;
+  padding: 8px 0;
+  border-top: 2px dashed #ff6600;
+  border-bottom: 2px dashed #ff6600;
+  margin-bottom: 30px;
+  background: #ffff99;
+}
+
+header {
+  text-align: center;
+  padding: 30px 0;
+  border: 4px double #000080;
+  background: #ffffff;
+  margin-bottom: 30px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #ff0000;
+  text-shadow: 2px 2px 0 #000080;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+h1 span {
+  display: inline-block;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #008000;
+  font-weight: bold;
+}
+
+.subtitle::before { content: '☛ '; }
+.subtitle::after { content: ' ☚'; }
+
+.section {
+  border: 3px ridge #000080;
+  padding: 20px;
+  margin-bottom: 25px;
+  background: #ffffff;
+}
+
+h2 {
+  background: #000080;
+  color: #ffffff;
+  padding: 6px 14px;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  margin: -20px -20px 20px -20px;
+  text-transform: uppercase;
+}
+
+h2::before { content: '★ '; }
+h2::after { content: ' ★'; }
+
+.blink {
+  animation: blink 1s step-end infinite;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.stat-card {
+  border: 2px solid #008000;
+  padding: 16px;
+  text-align: center;
+  background: #f0fff0;
+}
+
+.stat-card:hover {
+  background: #ccffcc;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ff0000;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #000080;
+  font-weight: bold;
+}
+
+.level-box {
+  border: 2px solid #ff6600;
+  padding: 16px;
+  margin: 12px 0;
+  background: #fff5e6;
+}
+
+.level-box h3 {
+  color: #ff6600;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.level-box h3::before {
+  content: '► ';
+}
+
+.level-box p {
+  font-size: 0.9rem;
+  color: #000080;
+}
+
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.tag-cloud span {
+  display: inline-block;
+  border: 2px outset #cccccc;
+  padding: 3px 12px;
+  background: #eeeeee;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #000080;
+}
+
+.tag-cloud span:hover {
+  border-style: inset;
+  background: #dddddd;
+}
+
+.skill-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px dashed #cccccc;
+}
+
+.skill-row:last-child { border-bottom: none; }
+
+.skill-name {
+  font-weight: bold;
+  color: #000080;
+  min-width: 80px;
+}
+
+.skill-desc {
+  color: #333333;
+  font-size: 0.9rem;
+}
+
+.myth-box {
+  border: 2px dashed #ff0000;
+  padding: 14px;
+  margin: 12px 0;
+  background: #fff0f0;
+}
+
+.myth-box h3 {
+  color: #ff0000;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.myth-box h3::before {
+  content: '✘ ';
+}
+
+.myth-box p {
+  font-size: 0.85rem;
+  color: #333333;
+}
+
+hr {
+  border: none;
+  border-top: 4px dotted #ff6600;
+  margin: 30px 0;
+}
+
+.counter {
+  text-align: center;
+  font-size: 0.7rem;
+  color: #666666;
+  font-family: 'Courier New', monospace;
+  margin-top: 10px;
+}
+
+.footer {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #000080;
+  line-height: 2;
+  border-top: 2px solid #000080;
+  padding-top: 20px;
+}
+
+.footer a {
+  color: #0000ff;
+  text-decoration: underline;
+}
+
+.footer a:hover {
+  color: #ff0000;
+}
+
+.best-viewed {
+  text-align: center;
+  font-size: 0.7rem;
+  color: #999999;
+  margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+  .stat-grid { grid-template-columns: 1fr; }
+  h1 { font-size: 1.8rem; }
+}
+</style>
+</head>
+<body>
+
+<marquee>★ НОВОСТИ ★ React 19 — RSC — WebGPU — State of JS 2024 — Хабр Карьера 2025 ★ Медианная 220k ★</marquee>
+
+<div class="container">
+  <header>
+    <h1>★ ФРОНТЕНД <span>ГАЙД</span> ★</h1>
+    <p class="subtitle">Всё, что нужно знать о профессии</p>
+  </header>
+
+  <div class="section">
+    <h2>Рынок труда</h2>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-number">~12 000</div>
+        <div class="stat-label">вакансий на hh.ru</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">220 000 ₽</div>
+        <div class="stat-label">медианная зарплата</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">82%</div>
+        <div class="stat-label">используют React</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">3.5 года</div>
+        <div class="stat-label">до Middle</div>
+      </div>
+    </div>
+    <p style="font-size:0.8rem;text-align:right;color:#666;">Источники: State of JS 2024, Хабр Карьера</p>
+  </div>
+
+  <div class="section">
+    <h2>Карьерные уровни</h2>
+    <div class="level-box">
+      <h3>Junior (0–1.5 года)</h3>
+      <p>HTML/CSS, базовый JS, один фреймворк. Зарплата: 60 000 – 120 000 ₽</p>
+    </div>
+    <div class="level-box">
+      <h3>Middle (1.5–5 лет)</h3>
+      <p>TypeScript, архитектура компонентов, тесты, оптимизация. Зарплата: 150 000 – 300 000 ₽</p>
+    </div>
+    <div class="level-box">
+      <h3>Senior (5+ лет)</h3>
+      <p>Инфраструктура, код-ревью, проектирование систем. Зарплата: 300 000 – 600 000+ ₽</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Тренды 2026</h2>
+    <div class="tag-cloud">
+      <span>React Server Components</span>
+      <span>WebGPU</span>
+      <span>AI-ассистенты</span>
+      <span>WebAssembly</span>
+      <span>Signals</span>
+      <span>CSS Layers</span>
+      <span>HTMX</span>
+      <span>TypeScript</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Что учить</h2>
+    <div class="skill-row">
+      <span class="skill-name">JavaScript</span>
+      <span class="skill-desc">асинхронность, замыкания, Event Loop, TS</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-name">React</span>
+      <span class="skill-desc">хуки, состояние, эффекты, Next.js, RSC</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-name">CSS</span>
+      <span class="skill-desc">Flexbox, Grid, анимации, переменные</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-name">Git</span>
+      <span class="skill-desc">ветки, PR, code review, CI/CD</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-name">Инструменты</span>
+      <span class="skill-desc">Vite, Webpack, Biome, Playwright</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Мифы</h2>
+    <div class="myth-box">
+      <h3>«Фронтенд — это просто»</h3>
+      <p>Современный фронтенд — это SSR, state management, performance, a11y, тесты, сборка. Полноценная инженерия.</p>
+    </div>
+    <div class="myth-box">
+      <h3>«Джунов не берут»</h3>
+      <p>Берут, но конкуренция выше. Ключ: пет-проекты с нормальной архитектурой, а не копипаста туториалов.</p>
+    </div>
+    <div class="myth-box">
+      <h3>«AI заменит фронтендеров»</h3>
+      <p>AI ускоряет рутину, но сложные интерфейсы требуют инженерных решений. Чем сложнее — тем нужнее люди.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="footer">
+    <p>★ Сделано командой Nova-8 ★</p>
+    <p><a href="https://praktika-blush.vercel.app">praktika-blush.vercel.app</a> | <a href="https://github.com/yermakov2006-dev/praktika">GitHub</a></p>
+  </div>
+
+  <div class="counter">
+    <span class="blink">♥</span> Сайт сделан на чистом HTML + CSS <span class="blink">♥</span>
+  </div>
+
+  <div class="best-viewed">
+    [ Best viewed in Netscape Navigator 4.0+ ]
+  </div>
+</div>
+</body>
+</html>

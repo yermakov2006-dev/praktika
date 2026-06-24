@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Путь фронтенда / минимальный гайд</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #f5f3ee;
+  color: #2a2624;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  line-height: 1.9;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 60px 40px;
+}
+
+header {
+  margin-bottom: 80px;
+}
+
+h1 {
+  font-size: 2.8rem;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: #8a8682;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-style: normal;
+}
+
+.lede {
+  font-size: 1.05rem;
+  color: #555;
+  margin-top: 24px;
+  max-width: 540px;
+  line-height: 1.8;
+}
+
+.section {
+  margin-bottom: 60px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 28px;
+  letter-spacing: -0.3px;
+  color: #2a2624;
+}
+
+h2::before {
+  content: '↴ ';
+  font-size: 1.2rem;
+  color: #b8b0a8;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: #dad6d0;
+  border: 1px solid #dad6d0;
+  margin: 24px 0;
+}
+
+.stat-item {
+  background: #f5f3ee;
+  padding: 28px 24px;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 400;
+  color: #3a3634;
+  letter-spacing: -0.5px;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #8a8682;
+  margin-top: 6px;
+  letter-spacing: 0.3px;
+}
+
+.step {
+  padding: 24px 0;
+  border-bottom: 1px solid #e8e4de;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.step:last-child {
+  border-bottom: none;
+}
+
+.step-number {
+  font-size: 0.8rem;
+  color: #b8b0a8;
+  min-width: 28px;
+  font-style: italic;
+}
+
+.step-content h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.step-content p {
+  font-size: 0.9rem;
+  color: #6a6662;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.tag {
+  background: #ece8e2;
+  color: #5a5652;
+  padding: 2px 12px;
+  font-size: 0.8rem;
+  font-style: italic;
+  border-radius: 0;
+  transition: background 0.2s;
+}
+
+.tag:hover {
+  background: #d4d0c8;
+}
+
+.myth {
+  padding: 20px 0;
+  border-bottom: 1px solid #e8e4de;
+}
+
+.myth:last-child {
+  border-bottom: none;
+}
+
+.myth h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #3a3634;
+}
+
+.myth h3::before {
+  content: '✗ ';
+  color: #b8b0a8;
+}
+
+.myth p {
+  font-size: 0.9rem;
+  color: #6a6662;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #dad6d0;
+  margin: 60px 0;
+}
+
+.source {
+  font-size: 0.8rem;
+  color: #8a8682;
+  text-align: center;
+  line-height: 2;
+}
+
+.source a {
+  color: #6a6662;
+  text-decoration: underline;
+  text-decoration-color: #dad6d0;
+  text-underline-offset: 3px;
+}
+
+.source a:hover {
+  text-decoration-color: #6a6662;
+}
+
+@media (max-width: 600px) {
+  .container { padding: 40px 20px; }
+  h1 { font-size: 2rem; }
+  .stat-grid { grid-template-columns: 1fr; }
+  .step { flex-direction: column; gap: 6px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <p class="subtitle">Практика · 2026</p>
+    <h1>Путь фронтенд-разработчика</h1>
+    <p class="lede">Короткий гайд без воды. Цифры, факты, тренды. На основе State of JS 2024 и Хабр Карьеры 2025.</p>
+  </header>
+
+  <div class="section">
+    <h2>Рынок</h2>
+    <div class="stat-grid">
+      <div class="stat-item">
+        <div class="stat-number">~12 000</div>
+        <div class="stat-label">вакансий на hh.ru в 2025</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">220 000 ₽</div>
+        <div class="stat-label">медианная зарплата</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">82%</div>
+        <div class="stat-label">разработчиков используют React</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">~3.5</div>
+        <div class="stat-label">года до уровня Middle</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Этапы</h2>
+    <div class="step">
+      <span class="step-number">01</span>
+      <div class="step-content">
+        <h3>Junior</h3>
+        <p>Вёрстка, базовый JS, один фреймворк. 0–1.5 года. 60–120k.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-number">02</span>
+      <div class="step-content">
+        <h3>Middle</h3>
+        <p>TypeScript, архитектура, тесты, оптимизация. 1.5–5 лет. 150–300k.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-number">03</span>
+      <div class="step-content">
+        <h3>Senior</h3>
+        <p>Инфраструктура, код-ревью, проектирование систем. 5+ лет. 300–600k+.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Тренды</h2>
+    <div class="tags">
+      <span class="tag">React Server Components</span>
+      <span class="tag">WebGPU</span>
+      <span class="tag">AI-ассистенты в разработке</span>
+      <span class="tag">Signals (Solid, Angular)</span>
+      <span class="tag">CSS Layers & Nesting</span>
+      <span class="tag">HTMX</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Что нужно знать</h2>
+    <div class="stat-grid">
+      <div class="stat-item">
+        <div class="stat-number">JS/TS</div>
+        <div class="stat-label">асинхронность, замыкания, типы</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">React</div>
+        <div class="stat-label">State, эффекты, RSC, Next.js</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">CSS</div>
+        <div class="stat-label">Flexbox, Grid, анимации, переменные</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">Git</div>
+        <div class="stat-label">ветки, PR, code review</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Заблуждения</h2>
+    <div class="myth">
+      <h3>«Фронтенд — это просто»</h3>
+      <p>Современный фронтенд — это управление состоянием, SSR, производительность, доступность, сборка, тесты. Полноценная инженерия.</p>
+    </div>
+    <div class="myth">
+      <h3>«Джунов не нанимают»</h3>
+      <p>Нанимают, но конкуренция выше. Решают пет-проекты с хорошей архитектурой и понимание фундаментальных концепций.</p>
+    </div>
+    <div class="myth">
+      <h3>«AI заменит фронтенд»</h3>
+      <p>AI ускоряет написание кода, но сложные интерфейсы требуют инженерных решений. Чем сложнее система, тем нужнее человек.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="source">
+    <p>Источники: State of JS 2024, Хабр Карьера 2025, hh.ru 2025</p>
+    <p><a href="https://praktika-blush.vercel.app">praktika-blush.vercel.app</a> · <a href="https://github.com/yermakov2006-dev/praktika">GitHub</a></p>
+  </div>
+</div>
+</body>
+</html>
