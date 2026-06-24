@@ -5,42 +5,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>FRONTEND — гайд по профессии</title>
 <style>
-/* ─── RESET ─── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ─── CSS VARIABLES (LIGHT — default) ─── */
 :root {
   --bg: #f5f5f5;
   --fg: #111;
   --card-bg: #fff;
-  --card-fg: #111;
   --muted: #888;
   --muted-text: #444;
   --light-text: #666;
   --border: #111;
-  --accent: #111;
   --invert-bg: #111;
   --invert-fg: #f5f5f5;
   --shift-offset: 16px;
   --tag-bg: #eee;
-  --tag-fg: #111;
+  --nav-h: 52px;
 }
 
 [data-theme="dark"] {
   --bg: #111;
   --fg: #eee;
   --card-bg: #1a1a1a;
-  --card-fg: #eee;
   --muted: #666;
   --muted-text: #aaa;
   --light-text: #888;
   --border: #eee;
-  --accent: #eee;
   --invert-bg: #eee;
   --invert-fg: #111;
   --tag-bg: #2a2a2a;
-  --tag-fg: #eee;
 }
+
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 16px); }
 
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -56,28 +51,161 @@ body {
   padding: 0 20px;
 }
 
-/* ─── THEME TOGGLE ─── */
-.theme-wrap {
-  text-align: right;
-  padding: 20px 0 0;
+/* ─── NAVBAR ─── */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: var(--card-bg);
+  border-bottom: 3px solid var(--border);
 }
 
-.theme-btn {
+.navbar-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.burger-btn {
+  background: none;
   border: 3px solid var(--border);
-  background: var(--card-bg);
   color: var(--fg);
-  padding: 8px 20px;
+  font-size: 22px;
+  line-height: 1;
+  padding: 4px 10px 6px;
+  cursor: pointer;
+  transition: none;
+}
+
+.burger-btn:hover {
+  background: var(--invert-bg);
+  color: var(--invert-fg);
+}
+
+/* ─── SIDE MENU ─── */
+.side-menu {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100%;
+  z-index: 200;
+  background: var(--card-bg);
+  border-left: 3px solid var(--border);
+  padding: 24px;
+  overflow-y: auto;
+  transition: right .3s ease;
+}
+
+.side-menu.open { right: 0; }
+
+.side-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 3px solid var(--border);
+}
+
+.side-menu-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+}
+
+.close-btn {
+  background: none;
+  border: 2px solid var(--border);
+  color: var(--fg);
+  font-size: 20px;
+  line-height: 1;
+  padding: 2px 8px 4px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background: var(--invert-bg);
+  color: var(--invert-fg);
+}
+
+.side-nav { list-style: none; }
+
+.side-nav li { border-bottom: 1px solid var(--tag-bg); }
+
+.side-nav a {
+  display: block;
+  padding: 12px 0;
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.side-nav a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.side-nav small {
+  display: block;
+  font-weight: 400;
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: none;
+  letter-spacing: 0;
+  margin-top: 2px;
+}
+
+.side-menu-footer {
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 3px solid var(--border);
+}
+
+.side-theme-btn {
+  width: 100%;
+  border: 3px solid var(--border);
+  background: var(--invert-bg);
+  color: var(--invert-fg);
+  padding: 10px;
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   cursor: pointer;
-  transition: none;
 }
 
-.theme-btn:hover {
-  background: var(--invert-bg);
-  color: var(--invert-fg);
+.side-theme-btn:hover {
+  background: var(--card-bg);
+  color: var(--fg);
+}
+
+/* ─── OVERLAY ─── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: rgba(0,0,0,.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+
+.overlay.show {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* ─── HERO ─── */
@@ -85,7 +213,7 @@ body {
   border: 4px solid var(--border);
   background: var(--card-bg);
   padding: 40px 32px;
-  margin: 20px 0 32px;
+  margin: 24px 0 32px;
   position: relative;
 }
 
@@ -193,17 +321,8 @@ body {
 .section-text strong { color: var(--fg); }
 
 /* ─── GRID ─── */
-.grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-}
-
-.grid-3 {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 14px;
-}
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
 
 .brutal-card {
   border: 3px solid var(--border);
@@ -423,12 +542,9 @@ body {
   margin-top: 4px;
 }
 
-.salary-bar {
-  height: 100%;
-  background: var(--invert-bg);
-}
+.salary-bar { height: 100%; background: var(--invert-bg); }
 
-/* ─── DETAILS / FAQ ─── */
+/* ─── FAQ ─── */
 details.detail-block {
   border: 2px solid var(--border);
   margin-bottom: 10px;
@@ -448,6 +564,8 @@ details.detail-block summary {
   align-items: center;
 }
 
+details.detail-block summary::-webkit-details-marker { display: none; }
+
 details.detail-block summary::after {
   content: '+';
   font-size: 18px;
@@ -455,9 +573,7 @@ details.detail-block summary::after {
   line-height: 1;
 }
 
-details.detail-block[open] summary::after {
-  content: '−';
-}
+details.detail-block[open] summary::after { content: '−'; }
 
 details.detail-block .detail-body {
   padding: 0 18px 14px;
@@ -476,7 +592,6 @@ details.detail-block .detail-body {
   color: var(--fg);
   font-size: 14px;
   font-weight: 700;
-  transition: none;
 }
 
 .resource-link:hover {
@@ -529,10 +644,37 @@ footer {
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="theme-wrap">
-    <button class="theme-btn" onclick="toggleTheme()">Тёмная тема</button>
+
+<nav class="navbar">
+  <span class="navbar-title">FRONTEND GUIDE</span>
+  <button class="burger-btn" id="burgerBtn" aria-label="Меню">☰</button>
+</nav>
+
+<div class="side-menu" id="sideMenu">
+  <div class="side-menu-header">
+    <span class="side-menu-title">Навигация</span>
+    <button class="close-btn" id="closeBtn">✕</button>
   </div>
+  <ul class="side-nav">
+    <li><a href="#intro">Введение<small>Кто это?</small></a></li>
+    <li><a href="#market">Цифры<small>Рынок и факты</small></a></li>
+    <li><a href="#salary">Зарплаты<small>По грейдам</small></a></li>
+    <li><a href="#duties">Обязанности<small>Что делает</small></a></li>
+    <li><a href="#stack">Технологии<small>Стек</small></a></li>
+    <li><a href="#skills">Навыки<small>Профиль Middle</small></a></li>
+    <li><a href="#career">Карьера<small>Путь</small></a></li>
+    <li><a href="#trends">Тренды<small>Куда движется</small></a></li>
+    <li><a href="#faq">Мифы<small>FAQ</small></a></li>
+    <li><a href="#resources">Ресурсы<small>Что читать</small></a></li>
+  </ul>
+  <div class="side-menu-footer">
+    <button class="side-theme-btn" id="sideThemeBtn">Тёмная тема</button>
+  </div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="container">
 
   <!-- HERO -->
   <header class="hero">
@@ -543,8 +685,8 @@ footer {
     </div>
   </header>
 
-  <!-- КТО ЭТО -->
-  <section class="section-block shifted">
+  <!-- ВВЕДЕНИЕ -->
+  <section class="section-block shifted" id="intro">
     <p class="section-tag">001 / Введение</p>
     <h2 class="section-title">
       Кто это?
@@ -563,7 +705,7 @@ footer {
   <div class="divider"></div>
 
   <!-- ЦИФРЫ -->
-  <section class="section-block">
+  <section class="section-block" id="market">
     <p class="section-tag">002 / Рынок</p>
     <h2 class="section-title">
       Цифры и факты
@@ -595,8 +737,8 @@ footer {
 
   <div class="divider"></div>
 
-  <!-- ЗАРПЛАТЫ ПО УРОВНЯМ -->
-  <section class="section-block shifted">
+  <!-- ЗАРПЛАТЫ -->
+  <section class="section-block shifted" id="salary">
     <p class="section-tag">002 / Компенсация</p>
     <h2 class="section-title">
       Зарплаты по грейдам
@@ -611,41 +753,25 @@ footer {
           <td><strong>Junior</strong></td>
           <td>90 000</td>
           <td>60–120k</td>
-          <td>
-            <div class="salary-bar-container">
-              <div class="salary-bar" style="width:20%"></div>
-            </div>
-          </td>
+          <td><div class="salary-bar-container"><div class="salary-bar" style="width:20%"></div></div></td>
         </tr>
         <tr>
           <td><strong>Middle</strong></td>
           <td>220 000</td>
           <td>150–300k</td>
-          <td>
-            <div class="salary-bar-container">
-              <div class="salary-bar" style="width:55%"></div>
-            </div>
-          </td>
+          <td><div class="salary-bar-container"><div class="salary-bar" style="width:55%"></div></div></td>
         </tr>
         <tr>
           <td><strong>Senior</strong></td>
           <td>400 000</td>
           <td>300–600k</td>
-          <td>
-            <div class="salary-bar-container">
-              <div class="salary-bar" style="width:85%"></div>
-            </div>
-          </td>
+          <td><div class="salary-bar-container"><div class="salary-bar" style="width:85%"></div></div></td>
         </tr>
         <tr>
           <td><strong>Lead</strong></td>
           <td>550 000</td>
           <td>400–700k+</td>
-          <td>
-            <div class="salary-bar-container">
-              <div class="salary-bar" style="width:100%"></div>
-            </div>
-          </td>
+          <td><div class="salary-bar-container"><div class="salary-bar" style="width:100%"></div></div></td>
         </tr>
       </tbody>
     </table>
@@ -654,7 +780,7 @@ footer {
   <div class="divider"></div>
 
   <!-- ОБЯЗАННОСТИ -->
-  <section class="section-block">
+  <section class="section-block" id="duties">
     <p class="section-tag">003 / Обязанности</p>
     <h2 class="section-title">
       Что реально делает?
@@ -694,8 +820,8 @@ footer {
 
   <div class="divider"></div>
 
-  <!-- СТЕК И НАВЫКИ -->
-  <section class="section-block shifted">
+  <!-- СТЕК -->
+  <section class="section-block shifted" id="stack">
     <p class="section-tag">004 / Стек</p>
     <h2 class="section-title">
       Технологии
@@ -735,7 +861,7 @@ footer {
   <div class="divider"></div>
 
   <!-- SKILL BARS -->
-  <section class="section-block">
+  <section class="section-block" id="skills">
     <p class="section-tag">004 / Владение</p>
     <h2 class="section-title">
       Уровень навыков
@@ -781,7 +907,7 @@ footer {
   <div class="divider"></div>
 
   <!-- КАРЬЕРА -->
-  <section class="section-block shifted">
+  <section class="section-block shifted" id="career">
     <p class="section-tag">005 / Карьера</p>
     <h2 class="section-title">
       Путь в профессии
@@ -810,7 +936,7 @@ footer {
   <div class="divider"></div>
 
   <!-- ТРЕНДЫ -->
-  <section class="section-block">
+  <section class="section-block" id="trends">
     <p class="section-tag">006 / Тренды</p>
     <h2 class="section-title">
       Что прямо сейчас
@@ -841,14 +967,13 @@ footer {
 
   <div class="divider"></div>
 
-  <!-- МИФЫ + FAQ -->
-  <section class="section-block shifted">
+  <!-- FAQ -->
+  <section class="section-block shifted" id="faq">
     <p class="section-tag">007 / Мифы и FAQ</p>
     <h2 class="section-title">
       Чего не надо говорить
       <small>Популярные заблуждения и ответы</small>
     </h2>
-
     <details class="detail-block">
       <summary>«Фронтенд — это же просто вёрстка»</summary>
       <div class="detail-body">Фронтенд включает управление состоянием, оптимизацию производительности, тестирование, CI/CD. Вёрстка — 20–30% работы. Остальное — инженерия.</div>
@@ -874,7 +999,7 @@ footer {
   <div class="divider"></div>
 
   <!-- РЕСУРСЫ -->
-  <section class="section-block">
+  <section class="section-block" id="resources">
     <p class="section-tag">008 / Ресурсы</p>
     <h2 class="section-title">
       Что читать и смотреть
@@ -920,17 +1045,48 @@ footer {
 </div>
 
 <script>
+const burger = document.getElementById('burgerBtn');
+const close = document.getElementById('closeBtn');
+const menu = document.getElementById('sideMenu');
+const overlay = document.getElementById('overlay');
+const themeBtn = document.getElementById('sideThemeBtn');
+
+function openMenu() {
+  menu.classList.add('open');
+  overlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMenu() {
+  menu.classList.remove('open');
+  overlay.classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+burger.addEventListener('click', openMenu);
+close.addEventListener('click', closeMenu);
+overlay.addEventListener('click', closeMenu);
+
+document.querySelectorAll('.side-nav a').forEach(function(link) {
+  link.addEventListener('click', closeMenu);
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && menu.classList.contains('open')) closeMenu();
+});
+
 function toggleTheme() {
   const html = document.documentElement;
-  const btn = document.querySelector('.theme-btn');
   if (html.getAttribute('data-theme') === 'dark') {
     html.removeAttribute('data-theme');
-    btn.textContent = 'Тёмная тема';
+    themeBtn.textContent = 'Тёмная тема';
   } else {
     html.setAttribute('data-theme', 'dark');
-    btn.textContent = 'Светлая тема';
+    themeBtn.textContent = 'Светлая тема';
   }
 }
+
+themeBtn.addEventListener('click', toggleTheme);
 </script>
 </body>
 </html>
