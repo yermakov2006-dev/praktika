@@ -5,346 +5,545 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>FRONTEND — гайд по профессии</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ─── RESET ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background: #f5f5f5;
-    color: #111;
-    line-height: 1.4;
-  }
+/* ─── CSS VARIABLES (LIGHT — default) ─── */
+:root {
+  --bg: #f5f5f5;
+  --fg: #111;
+  --card-bg: #fff;
+  --card-fg: #111;
+  --muted: #888;
+  --muted-text: #444;
+  --light-text: #666;
+  --border: #111;
+  --accent: #111;
+  --invert-bg: #111;
+  --invert-fg: #f5f5f5;
+  --shift-offset: 16px;
+  --tag-bg: #eee;
+  --tag-fg: #111;
+}
 
-  .container {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
+[data-theme="dark"] {
+  --bg: #111;
+  --fg: #eee;
+  --card-bg: #1a1a1a;
+  --card-fg: #eee;
+  --muted: #666;
+  --muted-text: #aaa;
+  --light-text: #888;
+  --border: #eee;
+  --accent: #eee;
+  --invert-bg: #eee;
+  --invert-fg: #111;
+  --tag-bg: #2a2a2a;
+  --tag-fg: #eee;
+}
 
-  /* ─── HEADER / HERO ─── */
-  .hero {
-    border: 4px solid #111;
-    background: #fff;
-    padding: 40px 32px;
-    margin: 40px 0 32px;
-    position: relative;
-  }
-  .hero::after {
-    content: '';
-    position: absolute;
-    top: 8px; left: 8px;
-    width: 100%; height: 100%;
-    border: 2px solid #111;
-    z-index: -1;
-  }
-  .hero-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    color: #888;
-  }
-  .hero h1 {
-    font-size: clamp(2.8rem, 8vw, 5.5rem);
-    font-weight: 900;
-    line-height: 0.95;
-    text-transform: uppercase;
-    letter-spacing: -0.04em;
-    margin-bottom: 20px;
-  }
-  .hero h1 span {
-    display: block;
-    background: #111;
-    color: #f5f5f5;
-    padding: 4px 12px 4px 0;
-    display: inline-block;
-  }
-  .hero-desc {
-    font-size: 18px;
-    font-weight: 400;
-    max-width: 600px;
-    border-left: 6px solid #111;
-    padding-left: 20px;
-    margin-top: 24px;
-  }
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.4;
+  transition: background .2s, color .2s;
+}
 
-  /* ─── SECTIONS ─── */
-  .section-block {
-    border: 3px solid #111;
-    background: #fff;
-    padding: 28px 32px;
-    margin-bottom: 20px;
-    position: relative;
-  }
-  .section-block.shifted {
-    margin-left: 16px;
-  }
-  .section-block.shifted::before {
-    content: '';
-    position: absolute;
-    top: -6px; left: -6px;
-    width: 100%; height: 100%;
-    border: 2px solid #111;
-    z-index: -1;
-  }
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
 
-  .section-tag {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #aaa;
-    margin-bottom: 8px;
-  }
+/* ─── THEME TOGGLE ─── */
+.theme-wrap {
+  text-align: right;
+  padding: 20px 0 0;
+}
 
-  .section-title {
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
-    margin-bottom: 16px;
-  }
-  .section-title small {
-    display: block;
-    font-size: 14px;
-    font-weight: 400;
-    text-transform: none;
-    letter-spacing: 0;
-    color: #666;
-    margin-top: 6px;
-  }
+.theme-btn {
+  border: 3px solid var(--border);
+  background: var(--card-bg);
+  color: var(--fg);
+  padding: 8px 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: none;
+}
 
-  .section-text {
-    font-size: 16px;
-    color: #333;
-    max-width: 720px;
-  }
-  .section-text p + p { margin-top: 12px; }
-  .section-text strong { color: #111; }
+.theme-btn:hover {
+  background: var(--invert-bg);
+  color: var(--invert-fg);
+}
 
-  /* ─── GRID ─── */
-  .grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
+/* ─── HERO ─── */
+.hero {
+  border: 4px solid var(--border);
+  background: var(--card-bg);
+  padding: 40px 32px;
+  margin: 20px 0 32px;
+  position: relative;
+}
 
-  .brutal-card {
-    border: 3px solid #111;
-    padding: 20px;
-    background: #fff;
-  }
-  .brutal-card.inverted {
-    background: #111;
-    color: #f5f5f5;
-  }
-  .brutal-card.inverted .card-num { color: #444; }
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 8px; left: 8px;
+  width: 100%; height: 100%;
+  border: 2px solid var(--border);
+  z-index: -1;
+}
 
-  .card-num {
-    font-size: 28px;
-    font-weight: 900;
-    line-height: 1;
-    color: #ddd;
-    margin-bottom: 10px;
-  }
-  .brutal-card h3 {
-    font-size: 16px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    margin-bottom: 10px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid currentColor;
-  }
-  .brutal-card .card-text {
-    font-size: 14px;
-    color: #444;
-    line-height: 1.5;
-  }
-  .brutal-card.inverted .card-text { color: #bbb; }
-  .brutal-card ul { list-style: none; }
-  .brutal-card li {
-    font-size: 13.5px;
-    padding: 3px 0;
-    padding-left: 14px;
-    position: relative;
-    color: #444;
-    line-height: 1.5;
-  }
-  .brutal-card li::before {
-    content: '—';
-    position: absolute;
-    left: 0;
-    font-weight: 700;
-    color: #111;
-  }
-  .brutal-card.inverted li { color: #bbb; }
-  .brutal-card.inverted li::before { color: #f5f5f5; }
+.hero-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  color: var(--muted);
+}
 
-  /* ─── TECH LIST ─── */
-  .tech-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 14px;
-  }
-  .tech-col {
-    border: 3px solid #111;
-    padding: 20px;
-    background: #fff;
-  }
-  .tech-col h3 {
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 14px;
-    color: #888;
-  }
-  .tech-col ul { list-style: none; }
-  .tech-col li {
-    font-size: 13px;
-    padding: 6px 0;
-    border-bottom: 1px solid #eee;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .tech-col li:last-child { border-bottom: none; }
-  .tech-col li .box {
-    width: 8px; height: 8px;
-    border: 2px solid #111;
-    flex-shrink: 0;
-  }
-  .tech-col li .box.filled { background: #111; }
+.hero h1 {
+  font-size: clamp(2.8rem, 8vw, 5.5rem);
+  font-weight: 900;
+  line-height: 0.95;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  margin-bottom: 20px;
+}
 
-  /* ─── META GRID ─── */
-  .meta-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-top: 16px;
-  }
-  .meta-card {
-    border: 2px solid #111;
-    padding: 18px 20px;
-    background: #fff;
-  }
-  .meta-card .label {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: #aaa;
-    margin-bottom: 4px;
-  }
-  .meta-card .value {
-    font-size: 22px;
-    font-weight: 900;
-  }
-  .meta-card .note {
-    font-size: 12px;
-    color: #666;
-    margin-top: 4px;
-  }
+.hero h1 span {
+  display: inline-block;
+  background: var(--invert-bg);
+  color: var(--invert-fg);
+  padding: 4px 12px 4px 0;
+}
 
-  /* ─── FACT LIST ─── */
-  .fact-list {
-    list-style: none;
-  }
-  .fact-list li {
-    font-size: 15px;
-    padding: 8px 0;
-    border-bottom: 1px solid #e5e5e5;
-    display: flex;
-    gap: 12px;
-  }
-  .fact-list li:last-child { border-bottom: none; }
-  .fact-list .marker {
-    font-weight: 900;
-    color: #111;
-    flex-shrink: 0;
-  }
+.hero-desc {
+  font-size: 18px;
+  font-weight: 400;
+  max-width: 600px;
+  border-left: 6px solid var(--border);
+  padding-left: 20px;
+  margin-top: 24px;
+  color: var(--muted-text);
+}
 
-  /* ─── DIVIDER ─── */
-  .divider {
-    height: 4px;
-    background: #111;
-    margin: 24px 0;
-  }
+/* ─── SECTION BLOCK ─── */
+.section-block {
+  border: 3px solid var(--border);
+  background: var(--card-bg);
+  padding: 28px 32px;
+  margin-bottom: 20px;
+  position: relative;
+}
 
-  /* ─── QUOTE ─── */
-  .quote-block {
-    border: 4px solid #111;
-    padding: 36px 32px;
-    background: #111;
-    color: #f5f5f5;
-    margin-bottom: 20px;
-  }
-  .quote-block blockquote {
-    font-size: clamp(1.1rem, 3vw, 1.5rem);
-    font-weight: 700;
-    line-height: 1.3;
-    letter-spacing: -0.01em;
-    max-width: 640px;
-  }
-  .quote-block cite {
-    display: block;
-    margin-top: 16px;
-    font-size: 12px;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: #777;
-    font-style: normal;
-  }
+.section-block.shifted {
+  margin-left: var(--shift-offset);
+}
 
-  /* ─── FOOTER ─── */
-  footer {
-    border-top: 4px solid #111;
-    padding: 28px 0;
-    margin-top: 32px;
-    margin-bottom: 40px;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #999;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
+.section-block.shifted::before {
+  content: '';
+  position: absolute;
+  top: -6px; left: -6px;
+  width: 100%; height: 100%;
+  border: 2px solid var(--border);
+  z-index: -1;
+}
 
-  @media (max-width: 750px) {
-    .hero { padding: 24px 20px; }
-    .section-block { padding: 20px; }
-    .grid-2 { grid-template-columns: 1fr; }
-    .tech-grid { grid-template-columns: 1fr; }
-    .meta-grid { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 500px) {
-    .hero h1 { font-size: 2.2rem; }
-    .section-block.shifted { margin-left: 8px; }
-  }
+.section-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.section-title small {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--light-text);
+  margin-top: 6px;
+}
+
+.section-text {
+  font-size: 16px;
+  color: var(--muted-text);
+  max-width: 720px;
+}
+
+.section-text p + p { margin-top: 12px; }
+.section-text strong { color: var(--fg); }
+
+/* ─── GRID ─── */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+}
+
+.brutal-card {
+  border: 3px solid var(--border);
+  padding: 20px;
+  background: var(--card-bg);
+}
+
+.brutal-card.inverted {
+  background: var(--invert-bg);
+  color: var(--invert-fg);
+}
+
+.brutal-card.inverted .card-num { color: #444; }
+.brutal-card.inverted .card-text { color: #bbb; }
+.brutal-card.inverted li { color: #bbb; }
+.brutal-card.inverted li::before { color: var(--invert-fg); }
+
+.card-num {
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1;
+  color: #ddd;
+  margin-bottom: 10px;
+}
+
+.brutal-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid currentColor;
+}
+
+.brutal-card .card-text {
+  font-size: 14px;
+  color: var(--muted-text);
+  line-height: 1.5;
+}
+
+.brutal-card ul { list-style: none; }
+
+.brutal-card li {
+  font-size: 13.5px;
+  padding: 3px 0;
+  padding-left: 14px;
+  position: relative;
+  color: var(--muted-text);
+  line-height: 1.5;
+}
+
+.brutal-card li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+/* ─── META GRID ─── */
+.meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.meta-card {
+  border: 2px solid var(--border);
+  padding: 18px 20px;
+  background: var(--card-bg);
+}
+
+.meta-card .label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.meta-card .value {
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.meta-card .note {
+  font-size: 12px;
+  color: var(--light-text);
+  margin-top: 4px;
+}
+
+/* ─── FACT LIST ─── */
+.fact-list { list-style: none; }
+
+.fact-list li {
+  font-size: 15px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--tag-bg);
+  display: flex;
+  gap: 12px;
+}
+
+.fact-list li:last-child { border-bottom: none; }
+
+.fact-list .marker {
+  font-weight: 900;
+  color: var(--fg);
+  flex-shrink: 0;
+}
+
+/* ─── DIVIDER ─── */
+.divider {
+  height: 4px;
+  background: var(--border);
+  margin: 24px 0;
+}
+
+/* ─── QUOTE ─── */
+.quote-block {
+  border: 4px solid var(--border);
+  padding: 36px 32px;
+  background: var(--invert-bg);
+  color: var(--invert-fg);
+  margin-bottom: 20px;
+}
+
+.quote-block blockquote {
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  max-width: 640px;
+}
+
+.quote-block cite {
+  display: block;
+  margin-top: 16px;
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #777;
+  font-style: normal;
+}
+
+/* ─── SKILL BARS ─── */
+.skill-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.skill-name {
+  min-width: 110px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.skill-track {
+  flex: 1;
+  height: 20px;
+  border: 2px solid var(--border);
+  background: var(--card-bg);
+  position: relative;
+}
+
+.skill-fill {
+  height: 100%;
+  background: var(--invert-bg);
+  transition: width .6s ease;
+}
+
+.skill-pct {
+  font-size: 12px;
+  font-weight: 700;
+  min-width: 36px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── SALARY TABLE ─── */
+.salary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+.salary-table th {
+  text-align: left;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  padding: 8px 12px;
+  border-bottom: 2px solid var(--border);
+}
+
+.salary-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--tag-bg);
+}
+
+.salary-table tr:last-child td { border-bottom: none; }
+
+.salary-bar-container {
+  width: 100%;
+  height: 8px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  margin-top: 4px;
+}
+
+.salary-bar {
+  height: 100%;
+  background: var(--invert-bg);
+}
+
+/* ─── DETAILS / FAQ ─── */
+details.detail-block {
+  border: 2px solid var(--border);
+  margin-bottom: 10px;
+  background: var(--card-bg);
+}
+
+details.detail-block summary {
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+details.detail-block summary::after {
+  content: '+';
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+details.detail-block[open] summary::after {
+  content: '−';
+}
+
+details.detail-block .detail-body {
+  padding: 0 18px 14px;
+  font-size: 14px;
+  color: var(--muted-text);
+  line-height: 1.6;
+}
+
+/* ─── RESOURCES ─── */
+.resource-link {
+  display: block;
+  border: 2px solid var(--border);
+  padding: 14px 18px;
+  margin-bottom: 8px;
+  text-decoration: none;
+  color: var(--fg);
+  font-size: 14px;
+  font-weight: 700;
+  transition: none;
+}
+
+.resource-link:hover {
+  background: var(--invert-bg);
+  color: var(--invert-fg);
+}
+
+.resource-link small {
+  display: block;
+  font-weight: 400;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  border-top: 4px solid var(--border);
+  padding: 28px 0;
+  margin-top: 32px;
+  margin-bottom: 40px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 750px) {
+  :root { --shift-offset: 8px; }
+  .hero { padding: 24px 20px; }
+  .section-block { padding: 20px; }
+  .grid-2 { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: 1fr; }
+  .meta-grid { grid-template-columns: 1fr; }
+  .salary-table th, .salary-table td { padding: 6px 8px; }
+}
+
+@media (max-width: 500px) {
+  .hero h1 { font-size: 2.2rem; }
+  .skill-bar { flex-wrap: wrap; gap: 4px; }
+  .skill-name { min-width: 80px; }
+}
 </style>
 </head>
 <body>
-
 <div class="container">
+  <div class="theme-wrap">
+    <button class="theme-btn" onclick="toggleTheme()">Тёмная тема</button>
+  </div>
 
   <!-- HERO -->
   <header class="hero">
     <p class="hero-label">Гайд по профессии</p>
-    <h1>
-      <span>FRONTEND</span><br/>
-      РАЗРАБОТЧИК
-    </h1>
+    <h1><span>FRONTEND</span><br/>РАЗРАБОТЧИК</h1>
     <div class="hero-desc">
       Инженер интерфейсов. Строит то, что вы видите в браузере. Не путать с верстальщиком.
     </div>
   </header>
 
-  <!-- ======== КТО ЭТО ======== -->
+  <!-- КТО ЭТО -->
   <section class="section-block shifted">
     <p class="section-tag">001 / Введение</p>
     <h2 class="section-title">
@@ -356,17 +555,14 @@
         <strong>Frontend-разработчик</strong> — специалист, который реализует пользовательский интерфейс веб-приложения. Он берёт дизайн-макет и превращает его в код, работающий в браузере. В зону ответственности входит: вёрстка, логика интерфейса, работа с данными от сервера, оптимизация загрузки, обеспечение доступности (a11y) и кросс-браузерной совместимости.
       </p>
       <p>
-        В отличие от <strong>верстальщика</strong> (который только раскладывает блоки по сетке), фронтенд-разработчик пишет полноценную клиентскую логику: управляет состоянием приложения, обрабатывает пользовательские сценарии, работает с API, настраивает сборку и деплой. В малых командах фронтендер часто берёт на себя ещё и задачи UI/UX-инженера.
-      </p>
-      <p>
-        <strong>Типичные заблуждения:</strong> фронтенд — это не «лёгкий вход в IT» и не «только вёрстка». Современный фронтенд включает древовидную архитектуру компонентов, нюансы рендеринга (CSR / SSR / SSG / ISR), бандлинг, динамический импорт, теневой DOM, протоколы реального времени и интеграцию с AI-сервисами на стороне клиента.
+        В отличие от <strong>верстальщика</strong> (который только раскладывает блоки по сетке), фронтенд-разработчик пишет полноценную клиентскую логику: управляет состоянием приложения, обрабатывает пользовательские сценарии, работает с API, настраивает сборку и деплой.
       </p>
     </div>
   </section>
 
   <div class="divider"></div>
 
-  <!-- ======== ЦИФРЫ ======== -->
+  <!-- ЦИФРЫ -->
   <section class="section-block">
     <p class="section-tag">002 / Рынок</p>
     <h2 class="section-title">
@@ -382,25 +578,83 @@
       <div class="meta-card">
         <div class="label">Медианная зарплата</div>
         <div class="value">220 000 ₽</div>
-        <div class="note">Middle+ / Senior, Москва, чистый JS + React (данные Хабр Карьеры)</div>
+        <div class="note">Middle+ / Senior, Москва (данные Хабр Карьеры)</div>
       </div>
       <div class="meta-card">
-        <div class="label">Процент рынка</div>
-        <div class="value">~18%</div>
-        <div class="note">Фронтенд — вторая по численности вакансий IT-специализация после бэкенда</div>
+        <div class="label">React используют</div>
+        <div class="value">82%</div>
+        <div class="note">опрошенных разработчиков (State of JS 2024)</div>
       </div>
       <div class="meta-card">
-        <div class="label">Инструмент #1</div>
-        <div class="value">React</div>
-        <div class="note">53% опрошенных разработчиков используют React (State of JS 2024)</div>
+        <div class="label">До Middle</div>
+        <div class="value">~3.5 года</div>
+        <div class="note">Среднее время роста от Junior до Middle</div>
       </div>
     </div>
   </section>
 
   <div class="divider"></div>
 
-  <!-- ======== ЧЕМ ЗАНИМАЕТСЯ ======== -->
+  <!-- ЗАРПЛАТЫ ПО УРОВНЯМ -->
   <section class="section-block shifted">
+    <p class="section-tag">002 / Компенсация</p>
+    <h2 class="section-title">
+      Зарплаты по грейдам
+      <small>Москва, ₽, медиана 2025</small>
+    </h2>
+    <table class="salary-table">
+      <thead>
+        <tr><th>Уровень</th><th>Медиана</th><th>Вилка</th><th>Рынок</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Junior</strong></td>
+          <td>90 000</td>
+          <td>60–120k</td>
+          <td>
+            <div class="salary-bar-container">
+              <div class="salary-bar" style="width:20%"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Middle</strong></td>
+          <td>220 000</td>
+          <td>150–300k</td>
+          <td>
+            <div class="salary-bar-container">
+              <div class="salary-bar" style="width:55%"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Senior</strong></td>
+          <td>400 000</td>
+          <td>300–600k</td>
+          <td>
+            <div class="salary-bar-container">
+              <div class="salary-bar" style="width:85%"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Lead</strong></td>
+          <td>550 000</td>
+          <td>400–700k+</td>
+          <td>
+            <div class="salary-bar-container">
+              <div class="salary-bar" style="width:100%"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ОБЯЗАННОСТИ -->
+  <section class="section-block">
     <p class="section-tag">003 / Обязанности</p>
     <h2 class="section-title">
       Что реально делает?
@@ -411,28 +665,28 @@
         <div class="card-num">01</div>
         <h3>Строит интерфейсы</h3>
         <div class="card-text">
-          Собирает приложение из компонентов. Управляет состоянием (через Redux, Zustand, Pinia или signals во Vue). Настраивает роутинг (React Router, TanStack Router). Следит, чтобы интерфейс не перерисовывался без необходимости — мемоизация, виртуализация списков (react-window, TanStack Virtual), оптимизация ре-рендеров.
+          Собирает приложение из компонентов. Управляет состоянием (Redux, Zustand, Pinia или signals). Настраивает роутинг. Следит, чтобы интерфейс не перерисовывался без необходимости — мемоизация, виртуализация списков, оптимизация ре-рендеров.
         </div>
       </div>
       <div class="brutal-card inverted">
         <div class="card-num">02</div>
         <h3>Работает с данными</h3>
         <div class="card-text">
-          Ходит в API (REST / GraphQL), кеширует ответы (React Query / SWR / Apollo), обновляет данные в реальном времени через WebSocket или Server-Sent Events. Обрабатывает загрузку, ошибки, ретраи. Делает optimistic updates, чтобы интерфейс не ждал сервер.
+          Ходит в API (REST / GraphQL), кеширует ответы (React Query / SWR / Apollo), обновляет данные через WebSocket или SSE. Обрабатывает загрузку, ошибки, ретраи. Делает optimistic updates для отзывчивости.
         </div>
       </div>
       <div class="brutal-card inverted">
         <div class="card-num">03</div>
         <h3>Оптимизирует</h3>
         <div class="card-text">
-          Следит за Core Web Vitals: LCP (самая большая картинка/текст), CLS (сдвиги макета), INP (задержка на клик). Дробит бандл через code splitting, грузит тяжёлые компоненты лениво (lazy loading), выносит CSS в отдельные чанки. Сжимает изображения через WebP/AVIF. Настраивает кеширование через Service Worker.
+          Следит за Core Web Vitals: LCP, CLS, INP. Дробит бандл через code splitting, грузит лениво (lazy loading), сжимает изображения (WebP/AVIF), настраивает кеширование через Service Worker.
         </div>
       </div>
       <div class="brutal-card">
         <div class="card-num">04</div>
         <h3>Обеспечивает качество</h3>
         <div class="card-text">
-          Пишет тесты: модульные (Vitest, Jest), компонентные (Testing Library, Vue Test Utils), E2E (Playwright, Cypress). Внедряет линтеры (ESLint, stylelint) и форматтеры (Prettier). Проводит code review. Проверяет доступность: семантическая разметка, aria-атрибуты, навигация с клавиатуры, контрастность (WCAG 2.1 AA).
+          Пишет тесты: модульные (Vitest), компонентные (Testing Library), E2E (Playwright). Внедряет линтеры и форматтеры. Проводит code review. Проверяет доступность: семантика, aria, клавиатура, WCAG 2.1 AA.
         </div>
       </div>
     </div>
@@ -440,58 +694,93 @@
 
   <div class="divider"></div>
 
-  <!-- ======== СТЕК ======== -->
-  <section class="section-block">
+  <!-- СТЕК И НАВЫКИ -->
+  <section class="section-block shifted">
     <p class="section-tag">004 / Стек</p>
     <h2 class="section-title">
-      Чем работает?
-      <small>Не просто список технологий, а что зачем</small>
+      Технологии
+      <small>Языки, фреймворки, инструменты</small>
     </h2>
-    <div class="tech-grid">
-      <div class="tech-col">
+    <div class="grid-3">
+      <div class="brutal-card">
         <h3>Языки</h3>
         <ul>
-          <li><span class="box filled"></span>JavaScript (ES2024+)</li>
-          <li><span class="box filled"></span>TypeScript (де-факто стандарт)</li>
-          <li><span class="box"></span>HTML5 (семантика, a11y)</li>
-          <li><span class="box filled"></span>CSS3 (Grid, Container Queries)</li>
+          <li>JavaScript (ES2024+)</li>
+          <li>TypeScript (де-факто стандарт)</li>
+          <li>HTML5 (семантика, a11y)</li>
+          <li>CSS3 (Grid, Container Queries)</li>
         </ul>
-        <div style="margin-top:10px;font-size:11px;color:#999;line-height:1.4;">
-          TypeScript — обязателен в 80% вакансий. Не знать TS = отсев на этапе резюме.
-        </div>
       </div>
-      <div class="tech-col">
+      <div class="brutal-card">
         <h3>Фреймворки</h3>
         <ul>
-          <li><span class="box filled"></span>React 19 + Next.js / Remix</li>
-          <li><span class="box filled"></span>Vue 3 + Nuxt</li>
-          <li><span class="box"></span>Angular 17+ (standalone API)</li>
-          <li><span class="box filled"></span>Svelte 5 + SvelteKit</li>
-          <li><span class="box"></span>Solid.js / Qwik</li>
+          <li>React 19 + Next.js / Remix</li>
+          <li>Vue 3 + Nuxt</li>
+          <li>Angular 17+ (standalone API)</li>
+          <li>Svelte 5 + SvelteKit</li>
         </ul>
-        <div style="margin-top:10px;font-size:11px;color:#999;line-height:1.4;">
-          React лидирует по числу вакансий. Vue — популярен в Европе и Азии. Svelte и Solid — растущий тренд.
-        </div>
       </div>
-      <div class="tech-col">
+      <div class="brutal-card">
         <h3>Инфраструктура</h3>
         <ul>
-          <li><span class="box filled"></span>Vite — сборка (заменил CRA)</li>
-          <li><span class="box filled"></span>Turbopack / Webpack — legacy</li>
-          <li><span class="box"></span>Tailwind CSS — утилитарный CSS</li>
-          <li><span class="box filled"></span>ESLint + Prettier</li>
-          <li><span class="box"></span>Husky + lint-staged</li>
+          <li>Vite — сборка (стандарт)</li>
+          <li>Tailwind CSS — утилитарный CSS</li>
+          <li>ESLint + Prettier</li>
+          <li>Husky + lint-staged</li>
         </ul>
-        <div style="margin-top:10px;font-size:11px;color:#999;line-height:1.4;">
-          Vite — стандарт для новых проектов. Tailwind используется в 60% опросов (2024). CRA официально deprecated.
-        </div>
       </div>
     </div>
   </section>
 
   <div class="divider"></div>
 
-  <!-- ======== ПУТЬ ======== -->
+  <!-- SKILL BARS -->
+  <section class="section-block">
+    <p class="section-tag">004 / Владение</p>
+    <h2 class="section-title">
+      Уровень навыков
+      <small>Примерный профиль Middle-разработчика</small>
+    </h2>
+    <div class="skill-bar">
+      <span class="skill-name">HTML / CSS</span>
+      <div class="skill-track"><div class="skill-fill" style="width:95%"></div></div>
+      <span class="skill-pct">95%</span>
+    </div>
+    <div class="skill-bar">
+      <span class="skill-name">JavaScript</span>
+      <div class="skill-track"><div class="skill-fill" style="width:85%"></div></div>
+      <span class="skill-pct">85%</span>
+    </div>
+    <div class="skill-bar">
+      <span class="skill-name">TypeScript</span>
+      <div class="skill-track"><div class="skill-fill" style="width:75%"></div></div>
+      <span class="skill-pct">75%</span>
+    </div>
+    <div class="skill-bar">
+      <span class="skill-name">React / Next.js</span>
+      <div class="skill-track"><div class="skill-fill" style="width:80%"></div></div>
+      <span class="skill-pct">80%</span>
+    </div>
+    <div class="skill-bar">
+      <span class="skill-name">Git / CI/CD</span>
+      <div class="skill-track"><div class="skill-fill" style="width:70%"></div></div>
+      <span class="skill-pct">70%</span>
+    </div>
+    <div class="skill-bar">
+      <span class="skill-name">Testing</span>
+      <div class="skill-track"><div class="skill-fill" style="width:60%"></div></div>
+      <span class="skill-pct">60%</span>
+    </div>
+    <div class="skill-bar">
+      <span class="skill-name">Performance</span>
+      <div class="skill-track"><div class="skill-fill" style="width:55%"></div></div>
+      <span class="skill-pct">55%</span>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- КАРЬЕРА -->
   <section class="section-block shifted">
     <p class="section-tag">005 / Карьера</p>
     <h2 class="section-title">
@@ -501,26 +790,26 @@
     <ul class="fact-list">
       <li>
         <span class="marker">Junior</span>
-        <span>Может сверстать макет по Figma, пишет простые компоненты, знает основы JS и один фреймворк. Нужен код-ревью. Обычно не отвечает за архитектуру. Задачи: багфикс, мелкие фичи, вёрстка страниц.</span>
+        <span>Вёрстка по Figma, простые компоненты, основы JS и один фреймворк. Нужен код-ревью. 0–1.5 года. 60–120k.</span>
       </li>
       <li>
         <span class="marker">Middle</span>
-        <span>Уверенно работает с фреймворком, настраивает сборку, пишет тесты, проводит ревью. Понимает, когда нужен SSR, когда SPA, а когда вообще хватит статики. Рефакторит чужой код без страха.</span>
+        <span>Уверенный фреймворк, сборка, тесты, ревью. Понимает SSR vs SPA vs SSG. Рефакторит без страха. 1.5–5 лет. 150–300k.</span>
       </li>
       <li>
         <span class="marker">Senior</span>
-        <span>Проектирует архитектуру фронтенда, выбирает стек, оптимизирует производительность. Участвует в оценках и планировании. Знает бэкенд на уровне «что ему нужно от API». Умеет объяснять бизнесу, почему техдолг надо отдавать.</span>
+        <span>Архитектура фронтенда, выбор стека, performance. Участвует в планировании. Знает бэкенд на уровне API. 5+ лет. 300–600k+.</span>
       </li>
       <li>
-        <span class="marker">Lead / Head</span>
-        <span>Управляет командой фронтенда, нанимает, онбордит, выстраивает процессы. Пишет код редко — в основном code review и прототипы. Отвечает за результат, а не за строчки.</span>
+        <span class="marker">Lead</span>
+        <span>Управляет командой, нанимает, онбордит, выстраивает процессы. Код редко — в основном ревью и прототипы.</span>
       </li>
     </ul>
   </section>
 
   <div class="divider"></div>
 
-  <!-- ======== ТРЕНДЫ ======== -->
+  <!-- ТРЕНДЫ -->
   <section class="section-block">
     <p class="section-tag">006 / Тренды</p>
     <h2 class="section-title">
@@ -530,58 +819,92 @@
     <ul class="fact-list" style="margin-bottom:16px;">
       <li>
         <span class="marker">Server Components</span>
-        <span>React Server Components (RSC) меняют подход: часть компонентов рендерится на сервере, никогда не отправляя JS на клиент. Меньше бандла, быстрее загрузка.</span>
+        <span>React Server Components (RSC) меняют подход: часть компонентов рендерится на сервере без отправки JS на клиент. Меньше бандла, быстрее загрузка.</span>
       </li>
       <li>
         <span class="marker">AI в интерфейсе</span>
-        <span>Чат-интерфейсы, AI-автодополнение, генерация UI по промпту. Stream через SSE — стандартный паттерн. AI-агенты и веб-интерфейсы для LLM.</span>
+        <span>Чат-интерфейсы, AI-автодополнение, генерация UI по промпту. Stream через SSE — стандартный паттерн.</span>
       </li>
       <li>
         <span class="marker">WebGPU</span>
-        <span>API для вычислений на GPU в браузере. Позволяет делать тяжёлую 3D-графику, симуляции, обработку видео и ML-инференс на клиенте без плагинов.</span>
+        <span>API для вычислений на GPU в браузере. Тяжёлая 3D-графика, симуляции, ML-инференс на клиенте без плагинов.</span>
       </li>
       <li>
         <span class="marker">Меньше JS</span>
-        <span>Тренд на уменьшение JavaScript-бандла: island architecture (Astro), partial hydration (Qwik), компилируемые фреймворки (Svelte, Solid).</span>
+        <span>Island architecture (Astro), partial hydration (Qwik), компилируемые фреймворки (Svelte, Solid). Меньше JS = быстрее сайт.</span>
       </li>
     </ul>
-    <p style="font-size:13px;color:#666;border-top:2px solid #eee;padding-top:12px;">
-      <strong>Источники:</strong> State of JS 2024, HTTP Archive, Web Almanac, отчёты JetBrains Developer Ecosystem.
+    <p style="font-size:13px;color:var(--light-text);border-top:2px solid var(--tag-bg);padding-top:12px;">
+      <strong>Источники:</strong> State of JS 2024, HTTP Archive, Web Almanac, отчёты JetBrains.
     </p>
   </section>
 
   <div class="divider"></div>
 
-  <!-- ======== МИФЫ ======== -->
+  <!-- МИФЫ + FAQ -->
   <section class="section-block shifted">
-    <p class="section-tag">007 / Мифы</p>
+    <p class="section-tag">007 / Мифы и FAQ</p>
     <h2 class="section-title">
       Чего не надо говорить
-      <small>Популярные заблуждения о фронтенде</small>
+      <small>Популярные заблуждения и ответы</small>
     </h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-      <div style="border:3px solid #111;padding:18px 20px;background:#fff;">
-        <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">❌ «Это же просто вёрстка»</p>
-        <p style="font-size:13px;color:#555;line-height:1.5;">Фронтенд включает управление состоянием, оптимизацию производительности, тестирование, CI/CD. Вёрстка — 20–30% работы.</p>
-      </div>
-      <div style="border:3px solid #111;padding:18px 20px;background:#fff;">
-        <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">❌ «Можно без математики»</p>
-        <p style="font-size:13px;color:#555;line-height:1.5;">Анимации, гайки, алгоритмы поиска/фильтрации, сложность O(n), работа с канвасом — математика нужна регулярно.</p>
-      </div>
-      <div style="border:3px solid #111;padding:18px 20px;background:#fff;">
-        <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">❌ «Фреймворки — одно и то же»</p>
-        <p style="font-size:13px;color:#555;line-height:1.5;">React — библиотека без мнения об архитектуре. Vue — фреймворк с магией. Svelte — компилятор. Solid — без виртуального DOM. Разный подход к реактивности.</p>
-      </div>
-      <div style="border:3px solid #111;padding:18px 20px;background:#fff;">
-        <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">❌ «Достаточно знать React»</p>
-        <p style="font-size:13px;color:#555;line-height:1.5;">React — только инструмент. Без понимания DOM, HTTP, accessibility, рендеринга, бандлинга — вы просто пользователь API.</p>
-      </div>
-    </div>
+
+    <details class="detail-block">
+      <summary>«Фронтенд — это же просто вёрстка»</summary>
+      <div class="detail-body">Фронтенд включает управление состоянием, оптимизацию производительности, тестирование, CI/CD. Вёрстка — 20–30% работы. Остальное — инженерия.</div>
+    </details>
+    <details class="detail-block">
+      <summary>«Можно без математики»</summary>
+      <div class="detail-body">Анимации, алгоритмы поиска/фильтрации, сложность O(n), работа с canvas и WebGL — математика нужна регулярно. Хотя бы на уровне алгоритмов.</div>
+    </details>
+    <details class="detail-block">
+      <summary>«Все фреймворки — одно и то же»</summary>
+      <div class="detail-body">React — библиотека без мнения об архитектуре. Vue — фреймворк с магией. Svelte — компилятор. Solid — без виртуального DOM. Разный подход к реактивности и рендерингу.</div>
+    </details>
+    <details class="detail-block">
+      <summary>«Достаточно знать React»</summary>
+      <div class="detail-body">React — только инструмент. Без понимания DOM, HTTP, accessibility, рендеринга, бандлинга — вы просто пользователь чужого API, а не инженер.</div>
+    </details>
+    <details class="detail-block">
+      <summary>«AI скоро заменит фронтендеров»</summary>
+      <div class="detail-body">AI ускоряет написание кода, но не проектирование архитектуры, не принятие компромиссов, не понимание пользовательского опыта. Чем сложнее система — тем нужнее человек.</div>
+    </details>
   </section>
 
   <div class="divider"></div>
 
-  <!-- ======== ЦИТАТА ======== -->
+  <!-- РЕСУРСЫ -->
+  <section class="section-block">
+    <p class="section-tag">008 / Ресурсы</p>
+    <h2 class="section-title">
+      Что читать и смотреть
+      <small>Проверенные источники для роста</small>
+    </h2>
+    <a class="resource-link" href="https://developer.mozilla.org" target="_blank">
+      MDN Web Docs
+      <small>Главная документация — читать каждый день</small>
+    </a>
+    <a class="resource-link" href="https://roadmap.sh/frontend" target="_blank">
+      roadmap.sh / frontend
+      <small>Визуальная карта технологий от джуна до сеньора</small>
+    </a>
+    <a class="resource-link" href="https://web.dev" target="_blank">
+      web.dev
+      <small>Гайды по производительности и Core Web Vitals от Google</small>
+    </a>
+    <a class="resource-link" href="https://kentcdodds.com" target="_blank">
+      Kent C. Dodds
+      <small>React, Testing, Epic React — один из лучших авторов по фронтенду</small>
+    </a>
+    <a class="resource-link" href="https://www.joshwcomeau.com" target="_blank">
+      Josh W. Comeau
+      <small>CSS, React, анимации — глубокие разборы с интерактивными примерами</small>
+    </a>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ЦИТАТА -->
   <div class="quote-block">
     <blockquote>
       Фронтенд — единственная область разработки, где твой код<br/>
@@ -592,10 +915,22 @@
 
   <footer>
     <span>Frontend Developer Guide</span>
-    <span>Проверено по State of JS, Хабр Карьере и здравому смыслу</span>
+    <span>State of JS 2024 · Хабр Карьера 2025 · здравый смысл</span>
   </footer>
-
 </div>
 
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const btn = document.querySelector('.theme-btn');
+  if (html.getAttribute('data-theme') === 'dark') {
+    html.removeAttribute('data-theme');
+    btn.textContent = 'Тёмная тема';
+  } else {
+    html.setAttribute('data-theme', 'dark');
+    btn.textContent = 'Светлая тема';
+  }
+}
+</script>
 </body>
 </html>
